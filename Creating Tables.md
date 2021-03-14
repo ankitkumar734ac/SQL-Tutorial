@@ -257,3 +257,35 @@ where  table_name = 'TOYS';
 The query afterwards should return no rows.
 <hr>
 
+Summary
+The table types Oracle Database supports includes:
+
+Heap organized
+Index organized
+Externally organized
+Temporary 
+You can also place heap tables in a cluster. 
+
+
+Background
+Database tables tend to last a long time. And it's hard to change their type when they're full of data. So it's worth spending some time thinking about which type is the most appropriate for your data. The table types include:
+
+Heap tables
+
+These are the default table type. They are good for general-purpose data access. Most of the tables you create will be heaps. 
+
+Index Organized Table (IOT)
+
+An IOT stores data physically ordered according to the primary key. These are most suitable when you want to ensure fast data access by this key. 
+
+External Table
+
+You use external tables to read non-database files using SQL. These are ideal if you need to load comma separate value (CSV) files into your database.
+
+Temporary Table 
+
+These store data private to your session. These are useful if you have processes which save working data that you need to remove when it's complete.
+
+Table Clusters
+
+This is a data structure that can hold many tables. Rows from different tables with the same cluster key go in the same place. This can make accessing related rows from clustered tables much faster than non-clustered. This is because non-clustered tables will always store rows in different locations. 
