@@ -20,7 +20,7 @@ create table toys (
   weight   number
 );
 ```
-<hr>
+<br>
 ## Viewing Table Information
 The data dictionary stores information about your database. You can query this to see which tables it contains. There are three key views with this information:
 
@@ -34,7 +34,7 @@ select table_name, iot_name, iot_type, external,
 from   user_tables;
 ```
 The other columns display details of the properties of each table. The rest of this tutorial will explore these.
-<hr>
+<br>
 ## Table Organization
 Create table in Oracle Database has an organization clause. This defines how it physically stores rows in the table.
 
@@ -56,7 +56,7 @@ from   user_tables
 where  table_name = 'TOYS_HEAP';
 ```
 These are good general purpose tables and are the most common type in Oracle Database installations.
-<hr>
+<br>
 ## Index-Organized Tables
 Unlike a heap table, an index-organized table (IOT) imposes order on the rows within it. It physically stores rows sorted by its primary key. To create an IOT, you need to:
 
@@ -75,7 +75,8 @@ select table_name, iot_type
 from   user_tables
 where  table_name = 'TOYS_IOT';
 ```
-<hr>
+<br>
+
 ## Try It!
 Complete the following statement to create the index-organized table bricks_iot:
 ```
@@ -92,7 +93,8 @@ The query afterwards should return the following row:
 TABLE_NAME   IOT_TYPE   
 BRICKS_IOT   IOT  
 ```
-<hr>
+<br>
+
 ## External Tables
 You use external tables to read non-database files on the database server. For example, comma-separated values (CSV) files. To do this, you need to:
 
@@ -117,7 +119,8 @@ When you query this table, it will read from the file:
 /path/to/file/toys.csv
 ```
 This file must be accessible to the database server. You cannot use external tables to read files on your machine!
-<hr>
+<br>
+
 ## Temporary Tables
 Temporary tables store session specific data. Only the session that adds the rows can see them. This can be handy to store working data.
 
@@ -153,7 +156,8 @@ from   user_tables
 where  table_name in ( 'TOYS_GTT', 'ORA$PTT_TOYS' );
 ```
 Note that you can only see a row for the global temporary table. The database doesn't write private temporary tables to the data dictionary!
-<hr>
+<br>
+
 ## Partitioning Tables
 Partitioning logically splits up a table into smaller tables according to the partition column(s). So rows with the same partition key are stored in the same physical location.
 
@@ -205,7 +209,8 @@ select table_name, partition_name
 from   user_tab_partitions;
 ```
 Note that partitioning is a separately licensable option of Oracle Database. Ensure you have this option before using it!
-<hr>
+<br>
+
 ## Try It!
 Complete the following statement to create a hash-partitioned table. This should be partitioned on brick_id and have 8 partitions:
 ```
@@ -222,7 +227,7 @@ The query should return the following row:
 TABLE_NAME    PARTITIONED   
 BRICKS_HASH   YES   
 ```
-<hr>
+
 A table cluster can store rows from many tables in the same physical location. To do this, first you must create the cluster:
 ```
 create cluster toy_cluster (
@@ -234,8 +239,7 @@ Then place your tables in it using the cluster clause of create table:
 create table toys_cluster_tab (
   toy_name varchar2(100)
 ) cluster toy_cluster ( toy_name );
-```
-```
+
 create table toy_owners_cluster_tab (
   owner    varchar2(20),
   toy_name varchar2(100)
@@ -246,43 +250,41 @@ Rows that have the same value for toy_name in toys_clus_tab and toy_owners_clus_
 You can view details of clusters by querying the *_clusters views. If a table is in a cluster, cluster_name of *_tables tells you which cluster it is in:
 ```
 select cluster_name from user_clusters;
-```
-```
+
 select table_name, cluster_name
 from   user_tables
 where  table_name in ( 'TOYS_CLUSTER_TAB', 'TOY_OWNERS_CLUSTER_TAB' );
 ```
 Note: Clustering tables is an advanced topic. They have some restrictions. So make sure you read up on these before you use them!
-<hr>
+<br>
+
 ## Dropping Tables
 You can remove existing tables with the drop table command. Just add the name of the table you want to destroy:
 ```
 select table_name
 from   user_tables
 where  table_name = 'TOYS_HEAP';
-```
-```
+
 drop table toys_heap;
-```
-```
+
 select table_name
 from   user_tables
 where  table_name = 'TOYS_HEAP';
 ```
 Once you've dropped a table you can't access it. So take care with this command!
-<hr>
+<br>
+
 ## Try It!
 Complete the following statement to drop the toys table:
 ```
 drop table /*TODO*/ ;
-```
-```
+
 select table_name
 from   user_tables
 where  table_name = 'TOYS';
 ```
 The query afterwards should return no rows.
-<hr>
+<br>
 
 ## Summary
 The table types Oracle Database supports includes:
@@ -297,22 +299,22 @@ You can also place heap tables in a cluster.
 ## Background
 Database tables tend to last a long time. And it's hard to change their type when they're full of data. So it's worth spending some time thinking about which type is the most appropriate for your data. The table types include:
 
-####Heap tables
+#### Heap tables
 
 These are the default table type. They are good for general-purpose data access. Most of the tables you create will be heaps. 
 
-####Index Organized Table (IOT)
+#### Index Organized Table (IOT)
 
 An IOT stores data physically ordered according to the primary key. These are most suitable when you want to ensure fast data access by this key. 
 
-####External Table
+#### External Table
 
 You use external tables to read non-database files using SQL. These are ideal if you need to load comma separate value (CSV) files into your database.
 
-####Temporary Table 
+#### Temporary Table 
 
 These store data private to your session. These are useful if you have processes which save working data that you need to remove when it's complete.
 
-####Table Clusters
+#### Table Clusters
 
 This is a data structure that can hold many tables. Rows from different tables with the same cluster key go in the same place. This can make accessing related rows from clustered tables much faster than non-clustered. This is because non-clustered tables will always store rows in different locations. 
