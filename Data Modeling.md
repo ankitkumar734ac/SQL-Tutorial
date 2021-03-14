@@ -1,8 +1,8 @@
 <h1 align='center'>Data Modeling</h1>
-<hr>
+
 ## Introduction
 Data modelling is the process of taking user requirements and translating them into a table design. This is a large topic, worthy of a full course in its own right! This tutorial gives a brief overview of the process.
-<br><hr>
+<br>
 ## Overview
 The basic steps for designing a database for a new application are:
 
@@ -11,7 +11,7 @@ The basic steps for designing a database for a new application are:
 + Design the logical model
 + Create the physical model
 Building a database is an iterative process. As you go through the steps, consult with the users regularly to check it meets their needs. Often you'll need to adjust the model as you hone in on what the system must do.
-<br><hr>
+<br>
 ## Capturing Requirements
 The first step in building a database is to find out what information you need to store. To complete this process, speak with people who will use the system. This could be potential customers or in-house staff in the business.
 
@@ -27,7 +27,7 @@ It must store the following information:
 These are the functional requirements. i.e. what the system must do to serve its purpose. At this stage you should also capture non-functional requirements. These define how the application works.
 
 For example, all pages in the application must load in under two seconds. These can influence how you build your tables.
-<br><hr>
+<br>
 ## Conceptual Model
 The conceptual model is a high-level overview of the information the database will store. It defines key entities in the application. Entities are real-world things the database will store details of.
 
@@ -36,7 +36,7 @@ For the booking system, the key entities are:
 + The patient - the person seeking treatment
 + The consultant - the person who will diagnose the patient's condition & prescribe treatment
 + The appointment - the place and time of the consultation
-<br><hr>
+<br>
 ## Logical Model
 The logical model fleshes out the details in the conceptual model. It documents which aspects of the entities the system will store. These are the attributes of the entity. You represent this in an Entity-Relationship Diagram (ERD).
 
@@ -73,7 +73,7 @@ Finding dependencies like this and splitting the tables is a process called norm
 The logical model will also define the data types of each attribute. And any constraints that apply. For example, when booking an appointment, the date must be in the future.
 
 You should also define the attributes that uniquely identify each instance of an entity. These will form the primary and unique keys for the tables.
-<br><hr>
+<br>
 ## Normalization
 As described above, normalization is the process of removing redundancy in your design. So you store each fact once. This stops data errors appearing.
 
@@ -82,7 +82,7 @@ Normal forms are numbered, starting with first normal form. Followed by second, 
 There are a few other normal forms. The most common is Boyce-Codd normal form. This is a refinement of 3NF. So it is sometimes called 3.5NF.
 
 To be in a normal form, you must meet its requirements and those of the forms lower than it. So to reach 3NF, your tables must also be in 1NF & 2NF.
-<br><hr>
+<br>
 ## Physical Model
 Once you've built your logical model, it's time to translate this to the physical model. The output of this is the create table statements to build the database.
 
