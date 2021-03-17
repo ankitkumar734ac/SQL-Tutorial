@@ -107,6 +107,172 @@ select * from toys
 where  colour = 'green'
 and    ( toy_name = 'Mr Bunnykins' or toy_name = 'Baby Turtle' );
 ```
+## Lists of Values
+Often you want to get rows where a column matches any value in a list. You can do this by ORing these conditions together. For example, the following finds rows where the colour is red or green:
+```
+select * from toys
+where  colour = 'red' or
+       colour = 'green';
+```
+But this is a pain to write if you have a large number of values!
+
+Luckily you can simplify this with IN. Place the list of values in parentheses. Then check if the column is IN this list. So this query is the same as the one above, finding all the rows where the colour is red or green:
+```
+select * from toys
+where  colour in ( 'red' , 'green' );
+```
+## Ranges of Values
+
+You can also find all the rows matching a range of values with inequalities such as <, >=, etc.
+
+For example, to find all the toys that cost less than 10, use:
+```
+select * from toys
+where  price < 10;
+```
+Or those with a price greater than or equal to 6 with:
+```
+select * from toys
+where  price >= 6;
+```
+You can also use the condition between. This returns rows with values from a lower to an upper bound. This is inclusive, so it returns rows with values matching either limit. So the following gets all the data with a price equal to 6, 20, or any value between these two:
+```
+select * from toys
+where  price between 6 and 20;
+```
+It is the same as the following query:
+```
+select * from toys
+where  price >= 6
+and    price <= 20;
+```
+If you want to exclude rows at either boundary, you need to write the separate tests. For example, to get all the rows where the price is greater than 6 and less than or equal to 20, use:
+```
+select * from toys
+where  price > 6 
+and    price <= 20;
+```
+## Wildcards
+
+When searching strings, you can find rows matching a pattern using LIKE. This has two wildcard characters:
+
++ Underscore (_) matches exactly one character
++ Percent (%) matching zero or more characters
+You can place these either side of the characters you're searching for. So this finds all the rows that have a colour starting with b:
+```
+select * from toys
+where  colour like 'b%';
+```
+And this all the rows with colours ending in n:
+```
+select * from toys
+where  colour like '%n';
+```
+Underscore matches exactly one character. So the following finds all the rows with toy_names eleven characters long:
+```
+select * from toys
+where  toy_name like '___________';
+```
+Percent is true even if it matches no characters. So the following tests to search for colours containing the letter "e" all return different results:
+```
+select * from toys
+where  colour like '_e_';
+
+select * from toys
+where  colour like '%e%';
+
+select * from toys
+where  colour like '%_e_%';
+```
+This is because these searches work as follows:
+
++ _e_ => any colour with exactly one character either side of e (red)
++ %e% => any colour that contains e anywhere in the string (red, blue, green)
++ %_e_% => any colour with at least one character either side of e (red, green)
+
+**Searching for Wildcard Characters**
+
+You may want to find rows that contain either underscore or percent. For example, if you want to see all the rows that include underscore in the toy_name, you might try:
+```
+select * from toys
+where  toy_name like '%_%';
+```
+But this returns all the rows!
+
+This is because it sees underscore as the wildcard. So it looks for all rows that have at least one character in toy_name.
+
+To avoid this, you can use escape characters. Place this character before the wildcard. Then state what it is in the escape clause after the condition. This can be any character. But usually you'll use symbols you're unlikely to search for. Such as backslash \ or hash #.
+
+So both the following find Miss Smelly_bottom, the only toy_name that includes an underscore:
+```
+select * from toys
+where  toy_name like '%\_%' escape '\';
+
+select * from toys
+where  toy_name like '%#_%' escape '#';
+```
+## Null
+
+The price for Baby Turtle is null. This is neither equal to nor not equal to anything! The result of comparing a value to null is unknown.
+
+Where clauses only return rows where the tests are true. So if you search for rows where the price equals null, you get no data:
+```
+select * from toys
+where  price = null;
+```
+To find rows storing null values, you must use the "is null" condition:
+```
+select * from toys
+where  price is null;
+```
+## Negation
+
+You can return the opposite of most conditions by placing NOT before it. For example, to find all the toys that aren't green, you can do:
+```
+select *
+from   toys 
+where  not colour = 'green';
+```
+You can get the same result by changing equals to either of the not equal conditions, != or <>:
+```
+select *
+from  toys 
+where colour <> 'green';
+```
+One exception to this is null. Searching for rows that are NOT equal to null still returns nothing:
+```
+select *
+from   toys 
+where  not colour = null;
+
+select *
+from   toys 
+where  colour <> null;
+```
+To get all the rows with a non-null value, you must use the is not null condition:
+```
+select *
+from   toys 
+where  colour is not null;
+```
+## Try It!
+
+Complete the following query to find the rows where:
+
+The colour is not green
+The price is not equal to 6
+```
+select toy_name
+from   toys
+where  /* TODO */
+```
+This should return the following rows:
+
+**TOY_NAME**        
+Sir Stripypants   
+Cuteasaurus       
+Mr Bunnykins     
+How many ways can you think of to write this query?
 
 
 
