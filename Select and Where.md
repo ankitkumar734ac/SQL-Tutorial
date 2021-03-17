@@ -16,6 +16,8 @@ insert into toys values ( 'Baby Turtle', 'green', null );
 
 commit;
 ```
+## Selecting Rows
+<br>
 You access rows in a database table with the select statement. This returns data to the client. It has two core parts: select and from.
 
 In the from clause you list the tables you want to get the rows from. And in select you state which columns you want to see the values of.
@@ -47,8 +49,8 @@ A condition can match many rows. The database will return all of them. The rows 
 select * from toys
 where  colour = 'red';
 ```
+## Combining Criteria 
 <br>
-## Combining Criteria
 You can combine many filters with AND & OR.
 
 **AND**
